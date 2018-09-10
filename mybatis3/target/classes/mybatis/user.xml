@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+	<!-- 根据id查询用户信息 -->
+	<select id="getUserById" parameterType="int" resultType="cn.ethan.mybatis.pojo.User">
+		SELECT * FROM USER WHERE id = #{id1}
+	</select>
+	
+	
+	<!-- 进行模糊查询 -->
+	<select id="getUserByVagueName" parameterType="string" resultType = "cn.ethan.mybatis.pojo.User">
+		<!-- 不知如何添加模糊查询站位符 -->
+		SELECT * FROM `user` WHERE username LIKE '%${value}%'
+	</select>
+	
+	<!--实现添加用户  -->
+	<insert id="insertUser" parameterType="cn.ethan.mybatis.pojo.User">
+	<!--  标签当中不知道该传入那些参数-->
+		INSERT INTO `user`
+            (`username`,
+             `birthday`,
+             `sex`,
+             `address`)
+		VALUES (
+		        #{username},
+		        #{birthday},
+		        #{sex},
+		        #{address});
+		        <!-- 这里的传入的username，birthday。。。必须与pojo当中用的属性一致 -->
+	</insert>
+	
+	<!--修改用户信息  -->
+	<update id="updateUserById" parameterType = "cn.ethan.mybatis.pojo.User">
+	UPDATE `user`
+		SET
+		  `sex` = #{sex}
+		WHERE `id` = #{id};
+	</update>
+	
+	<delete id="deleteUserById" parameterType="int">
+		DELETE
+			FROM `user`
+			WHERE `id` = #{id};
+			
+	<!-- 为何传入一个不存在的ID，不会报错 -->
+	</delete>
+</mapper>
